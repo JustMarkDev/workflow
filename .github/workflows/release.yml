@@ -1,0 +1,71 @@
+# INTENTIONALLY INVALID PSEUDOCODE — replace every bracketed token, remove all
+# commentary and inapplicable branches, then render valid destination YAML.
+
+name: Release
+on:
+  push:
+    tags:
+      - "v*"
+permissions: [LEAST_PRIVILEGE_PUBLISHING_PERMISSIONS]
+
+# Use major-version action references. Cache steps are intentionally omitted. Derive
+# permissions from the approved publication target; include no unused permissions.
+jobs:
+  verify:
+    name: Verify tagged commit
+    runs-on: [MINIMAL_APPROPRIATE_RUNNER]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up detected toolchains
+        uses: [MAJOR_VERSION_TOOLCHAIN_ACTION]
+      - name: Install locked dependencies
+        run: [VERIFIED_LOCKED_INSTALL_COMMAND]
+      - name: Run required checks
+        run: [VERIFIED_CHECK_TEST_LINT_FORMAT_BUILD_COMMANDS]
+
+  # Do not run dependency audits here; CI owns dependency audits.
+
+  build:
+    name: Build [RELEASE_ARTIFACT]
+    needs: verify
+    runs-on: [RELEASE_RUNNER_OR_MATRIX]
+    strategy: [OS_MATRIX_ONLY_IF_PLATFORM_SPECIFIC_ARTIFACTS_EXIST]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up detected toolchains
+        uses: [MAJOR_VERSION_TOOLCHAIN_ACTION]
+      - name: Install locked dependencies
+        run: [VERIFIED_LOCKED_INSTALL_COMMAND]
+      - name: Build actual release artifacts
+        run: [VERIFIED_RELEASE_BUILD_COMMAND]
+      - name: Transfer deterministic artifacts
+        uses: [MAJOR_VERSION_ARTIFACT_ACTION]
+        with:
+          name: [PROJECT_NAME]-[VERSION]-[PLATFORM]-[ARCHITECTURE]
+          path: [VERIFIED_ARTIFACT_PATH]
+
+  # Use an OS matrix only for platform-specific products. Do not assume installers,
+  # packages, websites, containers, or binaries without destination evidence.
+
+  publish:
+    name: Publish release
+    needs:
+      - verify
+      - build
+    runs-on: [MINIMAL_PUBLISH_RUNNER]
+    steps:
+      - name: Derive version from tag
+        run: [VERIFIED_TAG_VERSION_COMMAND]
+      - name: Retrieve expected artifacts
+        uses: [MAJOR_VERSION_ARTIFACT_ACTION]
+      - name: Publish automatically
+        uses: [MAJOR_VERSION_PUBLISH_ACTION]
+        with:
+          version: [VERSION_FROM_TAG]
+          release-notes: [VERIFIED_RELEASE_NOTES_MECHANISM]
+          artifacts: [EXPECTED_RELEASE_ARTIFACTS_ONLY]
+          draft: false
+
+# Publish only after every required job succeeds. Fail before publishing when any
+# expected artifact is absent; never partially publish. The migration agent must
+# obtain approval if publication requires external side effects beyond scope.

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+dist-ssr/
+.env.local
+.env.*.local
+.codex-logs/
+
+*.pdb
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,77 @@
+# INTENTIONALLY INVALID PSEUDOCODE — this file teaches structure, not GitHub syntax.
+# The migration agent must replace every bracketed token, remove commentary and
+# inapplicable branches, and render syntactically valid destination YAML.
+
+name: CI
+on: [PULL_REQUEST_TRIGGER]
+draft-policy: [SKIP_DRAFT_PULL_REQUESTS]
+permissions: [LEAST_PRIVILEGE_READ_PERMISSIONS]
+
+# Use major-version action references such as actions/checkout@v4. Cache steps are
+# intentionally omitted. Narrow token permissions to the minimum each job needs.
+jobs:
+  detect-changed-areas:
+    name: Detect changed areas
+    if: [NON_DRAFT_PULL_REQUEST_EXPRESSION]
+    runs-on: [MINIMAL_RUNNER]
+    checkout-history: [FULL_BASE_AND_HEAD_COMPARISON_HISTORY]
+    path-groups:
+      [AREA_NAME]:
+        - [VERIFIED_MANIFEST_OR_SOURCE_GLOB]
+        - [CI_WORKFLOW_PATH_THAT_TRIGGERS_THIS_AREA]
+    outputs:
+      [AREA_NAME]: [BOOLEAN_OUTPUT_EXPRESSION]
+
+  # Derive named changed areas from the actual layout. Conceptual examples include
+  # frontend, backend/native, shared configuration, and workflows. Workflow changes
+  # must trigger every relevant area. Do not create an empty native area for a
+  # website-only project. For a Tauri-like project, separate frontend and Rust/Tauri
+  # paths without copying concrete paths from this template.
+
+  [AREA_NAME]-checks:
+    name: [AREA_DISPLAY_NAME]
+    needs: detect-changed-areas
+    if: [AREA_CHANGED_EXPRESSION]
+    runs-on: [MINIMAL_APPROPRIATE_RUNNER]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up only detected toolchains
+        uses: [MAJOR_VERSION_TOOLCHAIN_ACTION]
+      - name: Install locked dependencies
+        run: [VERIFIED_LOCKED_INSTALL_COMMAND]
+      - name: Type check
+        run: [VERIFIED_TYPE_CHECK_COMMAND]
+      - name: Lint
+        run: [VERIFIED_LINT_COMMAND]
+      - name: Check formatting
+        run: [VERIFIED_FORMAT_CHECK_COMMAND]
+      - name: Test
+        run: [VERIFIED_TEST_COMMAND]
+      - name: Test documentation
+        run: [VERIFIED_DOCUMENTATION_TEST_COMMAND]
+      - name: Build smoke check
+        run: [VERIFIED_BUILD_COMMAND]
+      - name: Audit dependencies
+        run: [VERIFIED_ECOSYSTEM_AUDIT_COMMAND]
+
+  # Keep only applicable steps. Use Linux for portable checks and Windows/macOS only
+  # for verified platform needs. For JavaScript/TypeScript, use the detected or
+  # explicitly selected package manager. For Rust, prefer cargo nextest only when it
+  # is configured; otherwise use the verified test command. Install cargo-audit via
+  # a prebuilt GitHub Action installer rather than compiling it. Audits belong here,
+  # not in release workflows.
+
+  final-required-gate:
+    name: [STABLE_BRANCH_PROTECTION_CHECK_NAME]
+    if: [ALWAYS_RUN_FOR_NON_DRAFT_PULL_REQUESTS_EXPRESSION]
+    runs-on: ubuntu-latest
+    needs:
+      - detect-changed-areas
+      - [EVERY_CONDITIONAL_AREA_JOB]
+    steps:
+      - name: Verify required job states
+        run: [STATE_VALIDATION_SCRIPT]
+
+# The final required gate must require success for every changed area and require an
+# unchanged area's job to be skipped. It must fail on failure, cancellation, or an
+# inconsistent success/skipped state, producing one stable branch-protection check.

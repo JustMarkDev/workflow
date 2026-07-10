@@ -1,0 +1,24 @@
+# INTENTIONALLY INVALID PSEUDOCODE — render valid destination YAML before use.
+# Inspect manifests and lockfiles first. Create one entry for each actual ecosystem
+# and relevant manifest directory, and remove unused examples. Use only tools detected
+# in the destination repository or explicitly selected by the user.
+#
+version: 2
+updates:
+  - package-ecosystem: [VALID_ECOSYSTEM_IDENTIFIER]
+    directory: [MANIFEST_DIRECTORY]
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  # Retain this entry whenever GitHub Actions workflows exist.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+# Use valid Dependabot identifiers (conditionally, `bun` for Bun and `cargo` for
+# Rust). Keep weekly scheduling and the five-PR limit unless the user requests
+# otherwise. Configure private registries only when required, and never put
+# credentials directly in this file.
