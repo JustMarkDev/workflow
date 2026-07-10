@@ -40,7 +40,7 @@ Stop for user input when package-manager evidence conflicts, Git rules conflict 
 - `.gitattributes` and `.gitignore`: copy when absent; otherwise semantically merge, preserve destination rules, remove exact duplicates, and surface behavior-changing overlaps or negations.
 - `CLAUDE.md` and `LICENSE`: copy only when absent. When present, retain and report the destination file; never merge or create an alternate license.
 - `README.md`, `CONTRIBUTING.md`, and root `AGENTS.md`: after approval, replace from the adaptable documentation templates and re-derive every fact rather than merging prose.
-- `.github/dependabot.yml`, `.github/workflows/ci.yml`, and `.github/workflows/release.yml`: after approval, render new valid destination YAML from the intentionally invalid pseudocode configuration templates. Remove template commentary and every inapplicable branch.
+- `.github/dependabot.yml.template`, `.github/workflows/ci.yml.template`, and `.github/workflows/release.yml.template`: these `.yml.template` files are deliberately not recognized or run by GitHub. After approval, render new valid destination `.yml` files from the intentionally invalid pseudocode configuration templates. Remove template commentary and every inapplicable branch.
 
 ## Deriving the destination `.gitignore`
 
