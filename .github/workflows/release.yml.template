@@ -20,10 +20,11 @@ jobs:
         uses: [MAJOR_VERSION_TOOLCHAIN_ACTION]
       - name: Install locked dependencies
         run: [VERIFIED_LOCKED_INSTALL_COMMAND]
-      - name: Run required checks
-        run: [VERIFIED_CHECK_TEST_LINT_FORMAT_BUILD_COMMANDS]
+      - name: Run required checks and supported audit
+        run: [VERIFIED_CHECK_TEST_LINT_FORMAT_BUILD_AND_OPTIONAL_AUDIT_COMMANDS]
 
-  # Do not run dependency audits here; CI owns dependency audits.
+  # Run a dependency/security audit before publication when the destination defines
+  # a verified command. Do not invent an audit command for an unsupported ecosystem.
 
   build:
     name: Build [RELEASE_ARTIFACT]

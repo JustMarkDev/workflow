@@ -1,0 +1,67 @@
+# Repository instructions
+
+> Template note: Replace every bracketed token with a repository-verified fact or omit the inapplicable item. Remove this note from the rendered destination file. The Model orchestration TODO below is the sole intentional unfinished item that may remain.
+
+## Repository scope
+
+[REPOSITORY_PURPOSE_AND_SCOPE]
+
+- Relevant source areas: [VERIFIED_SOURCE_AREAS]
+- Instruction precedence: follow the root guidance, then the closest applicable nested `AGENTS.md` or `AGENTS.override.md` for scoped work.
+- Scoped instruction files: [VERIFIED_NESTED_INSTRUCTION_FILES_OR_NONE]
+
+## Repository navigation
+
+| Path | Purpose |
+| --- | --- |
+| `[VERIFIED_PATH]` | [VERIFIED_PURPOSE] |
+
+## Verified commands
+
+Use only commands established by manifests, lockfiles, configuration, or maintained repository documentation. Omit unsupported rows.
+
+| Task | Command |
+| --- | --- |
+| Setup/install | `[VERIFIED_INSTALL_COMMAND]` |
+| Development | `[VERIFIED_DEVELOPMENT_COMMAND]` |
+| Test | `[VERIFIED_TEST_COMMAND]` |
+| Lint | `[VERIFIED_LINT_COMMAND]` |
+| Format check | `[VERIFIED_FORMAT_CHECK_COMMAND]` |
+| Format | `[VERIFIED_FORMAT_COMMAND]` |
+| Type-check | `[VERIFIED_TYPE_CHECK_COMMAND]` |
+| Build | `[VERIFIED_BUILD_COMMAND]` |
+| Dependency/security audit | `[VERIFIED_AUDIT_COMMAND]` |
+| Release | `[VERIFIED_RELEASE_COMMAND]` |
+
+## Architecture and dependency constraints
+
+- [VERIFIED_ARCHITECTURAL_BOUNDARY_OR_CONSTRAINT]
+- [VERIFIED_DEPENDENCY_RULE]
+- Ask before adding or replacing a production dependency, and explain its maintenance, security, size, licensing, and compatibility tradeoffs.
+
+## Working and autonomy policy
+
+- For requests to answer, explain, review, diagnose, or plan, inspect the relevant materials and report the result. Do not implement changes unless the request also asks for them.
+- For requests to change, build, or fix, make the requested in-scope local changes and run relevant non-destructive validation without asking first.
+- Require confirmation before destructive operations, external writes, publishing, handling credentials, purchases, irreversible migrations, or a material expansion of scope.
+- Preserve user changes and unrelated work. Do not silently overwrite, revert, or reformat outside the requested scope.
+
+## Verification and completion
+
+- Run targeted checks for the changed area first, then every applicable repository-defined check listed above.
+- Report any check that could not run and the reason.
+- Do not invent commands, claim unverified behavior, or declare completion while required work remains.
+- Update tests and documentation when observable behavior changes.
+
+## Model orchestration
+
+TODO: Define the repository’s model-routing and subagent orchestration policy, including delegation triggers, model assignments, concurrency limits, write ownership, result synthesis, and fallback behavior.
+
+<!--
+Adaptation rules:
+- Keep this file small, repository-specific, and free of duplicated README prose.
+- State each durable rule once and omit every inapplicable row or section.
+- Add nested guidance only when a subtree genuinely needs different rules.
+- Keep reusable task workflows in repository skills rather than expanding this file.
+- Do not add speculative routing rules around the intentional Model orchestration TODO.
+-->
