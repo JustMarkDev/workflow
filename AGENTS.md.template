@@ -1,7 +1,5 @@
 # Repository instructions
 
-> Template note: Replace every bracketed token with a repository-verified fact or omit the inapplicable item. Remove this note from the rendered destination file. The Model orchestration TODO below is the sole intentional unfinished item that may remain.
-
 ## Repository scope
 
 [REPOSITORY_PURPOSE_AND_SCOPE]
@@ -52,16 +50,3 @@ Use only commands established by manifests, lockfiles, configuration, or maintai
 - Report any check that could not run and the reason.
 - Do not invent commands, claim unverified behavior, or declare completion while required work remains.
 - Update tests and documentation when observable behavior changes.
-
-## Model orchestration
-
-TODO: Define the repository’s model-routing and subagent orchestration policy, including delegation triggers, model assignments, concurrency limits, write ownership, result synthesis, and fallback behavior.
-
-<!--
-Adaptation rules:
-- Keep this file small, repository-specific, and free of duplicated README prose.
-- State each durable rule once and omit every inapplicable row or section.
-- Add nested guidance only when a subtree genuinely needs different rules.
-- Keep reusable task workflows in repository skills rather than expanding this file.
-- Do not add speculative routing rules around the intentional Model orchestration TODO.
--->
