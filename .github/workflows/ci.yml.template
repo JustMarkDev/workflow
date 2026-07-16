@@ -7,7 +7,7 @@ on: [PULL_REQUEST_TRIGGER]
 draft-policy: [SKIP_DRAFT_PULL_REQUESTS]
 permissions: [LEAST_PRIVILEGE_READ_PERMISSIONS]
 
-# Use major-version action references such as actions/checkout@v4. Cache steps are
+# Use major-version action references such as actions/checkout@v7. Cache steps are
 # intentionally omitted. Narrow token permissions to the minimum each job needs.
 jobs:
   detect-changed-areas:
@@ -34,7 +34,7 @@ jobs:
     if: [AREA_CHANGED_EXPRESSION]
     runs-on: [MINIMAL_APPROPRIATE_RUNNER]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up only detected toolchains
         uses: [MAJOR_VERSION_TOOLCHAIN_ACTION]
       - name: Install locked dependencies

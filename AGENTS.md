@@ -28,6 +28,7 @@ Report:
 - Detected stack, package ecosystems, manifests, lockfiles, build/release targets, and relevant source areas.
 - Preferred defaults already established, remaining relevant preference questions, affected files, and conflicts with existing project facts.
 - Existing destination files and every collision decision; never silently overwrite or delete a file.
+- Existing destination version references (including GitHub Actions, toolchains, runtimes, dependencies, and workflow helpers) that overlap proposed files. Report and preserve any destination version newer than the kit or rendered template.
 - Proposed exact-copy files and proposed merged Git rules.
 - Proposed replaced or adapted documentation, including the root `AGENTS.md` rendered from `AGENTS.md.template`.
 - Existing nested `AGENTS.md` files, their scopes, and any conflict with the proposed root guidance.
@@ -48,6 +49,8 @@ Always ask which destination license should apply: `MIT`, `Apache-2.0`, `GPL-3.0
 Stop for user input when package-manager evidence conflicts, Git rules conflict behaviorally, commands cannot be verified, a mixed-trigger workflow needs disposition, an existing license outcome is not explicit, publication targets or required artifacts are unknown, non-orchestration placeholders remain, or publishing exceeds approved permissions or side effects.
 
 ## Collision policy
+
+Never downgrade an existing destination version. Before replacing, merging, or rendering a file, compare overlapping GitHub Action major versions, toolchain/runtime versions, dependency versions, schema/API versions, and other explicit version references. If the destination is newer than the kit or template, retain the destination version and adapt the rendered file around it. A template version is a minimum/default for absent configuration, not authority to replace a newer destination version. If version ordering or compatibility cannot be determined confidently, stop and ask rather than downgrading. Validate the retained version against the rendered configuration.
 
 - `.gitattributes` and `.gitignore`: copy when absent; otherwise semantically merge, preserve destination rules, remove exact duplicates, and surface behavior-changing overlaps or negations.
 - `CLAUDE.md`: copy only when absent. When present, retain and report the destination file.
@@ -100,6 +103,7 @@ Dependabot and release automation remain normally proposed regardless of the PR-
 - The exact model-orchestration TODO is the only permitted rendered TODO.
 - Every documented command exists and has been validated as applicable.
 - GitHub YAML is syntactically valid and package ecosystems match real manifests.
+- No existing destination action, toolchain, runtime, dependency, schema/API, or other explicit version was downgraded by the migration.
 - Dependabot and release files match the approved destination behavior.
 - When PR CI is selected or retained, conditional jobs handle skipped areas correctly, run every applicable verified audit, and expose one stable final required gate.
 - When PR CI is declined, no approved PR-only workflow remains, and mixed-trigger workflows have explicit disposition.
