@@ -38,9 +38,9 @@ Report:
 - Commands to be used for validation.
 - Questions only for remaining high-impact ambiguity.
 
-Always ask `Include pull-request CI?` and recommend **No** for the solo, agentic-development workflow. Dependabot is not PR CI.
+Always ask `Include pull-request CI?` and recommend **Yes** so the migration includes the kit's PR-validation workflow. Dependabot is not PR CI.
 
-- If the answer is **Yes**, report the proposed changed-area path groups, conditional jobs, skipped-job handling, and stable final required gate before rendering `.github/workflows/ci.yml.template`.
+- If the answer is **Yes**, report the proposed changed-area path groups, conditional jobs, skipped-job handling, stable final required gate, and audit command before rendering `.github/workflows/ci.yml.template`. Migrate the rendered workflow along with the other approved GitHub configuration.
 - If the answer is **No**, report that the kit template is retained but omitted from the destination. Inspect every destination workflow semantically. Propose deletion of workflows triggered exclusively by `pull_request` or `pull_request_target` whose sole purpose is PR validation. Never remove tag-triggered release workflows. Stop for user direction when a workflow mixes PR and non-PR triggers.
 
 Always ask which destination license should apply: `MIT`, `Apache-2.0`, `GPL-3.0-only`, or `AGPL-3.0-only`. If a destination `LICENSE` exists, offer to keep it or replace it with the selected catalog license and require an explicit choice. If MIT is newly selected, also require the copyright year and holder.
@@ -55,7 +55,7 @@ Stop for user input when package-manager evidence conflicts, Git rules conflict 
 - Root `AGENTS.md`: after approval, replace with a repository-specific rendering of `AGENTS.md.template`. Re-derive every command, path, constraint, and fact. Preserve nested destination `AGENTS.md` files unless their scoped guidance conflicts; report conflicts instead of silently rewriting nested files.
 - `LICENSE`: never merge or create an alternate license. Apply the explicitly approved keep, create, or replace outcome using exactly one catalog source from `licenses/`.
 - `.github/dependabot.yml.template` and `.github/workflows/release.yml.template`: after approval, render new valid destination YAML from the intentionally invalid pseudocode. Remove template commentary, bracketed tokens, and inapplicable branches.
-- `.github/workflows/ci.yml.template`: retain in this kit, but never render by default. Render it only after an explicit **Yes** to pull-request CI. After an approved **No**, delete only the preflight-listed PR-only workflows; stop on mixed-trigger workflows.
+- `.github/workflows/ci.yml.template`: retain in this kit and render after an explicit **Yes** to pull-request CI. The rendered workflow must run every applicable verified dependency/security audit. After an approved **No**, delete only the preflight-listed PR-only workflows; stop on mixed-trigger workflows.
 
 ## Skills catalog and collisions
 
@@ -101,7 +101,7 @@ Dependabot and release automation remain normally proposed regardless of the PR-
 - Every documented command exists and has been validated as applicable.
 - GitHub YAML is syntactically valid and package ecosystems match real manifests.
 - Dependabot and release files match the approved destination behavior.
-- When PR CI is selected or retained, conditional jobs handle skipped areas correctly and expose one stable final required gate.
+- When PR CI is selected or retained, conditional jobs handle skipped areas correctly, run every applicable verified audit, and expose one stable final required gate.
 - When PR CI is declined, no approved PR-only workflow remains, and mixed-trigger workflows have explicit disposition.
 - Every copied skill has valid metadata, and the migration introduced no duplicate skill names.
 - Exactly one approved root-license outcome is present, with no unresolved MIT attribution token.

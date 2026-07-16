@@ -51,15 +51,16 @@ jobs:
         run: [VERIFIED_DOCUMENTATION_TEST_COMMAND]
       - name: Build smoke check
         run: [VERIFIED_BUILD_COMMAND]
-      - name: Audit dependencies
+      - name: Audit dependencies and security
         run: [VERIFIED_ECOSYSTEM_AUDIT_COMMAND]
 
   # Keep only applicable steps. Use Linux for portable checks and Windows/macOS only
   # for verified platform needs. For JavaScript/TypeScript, use the detected or
   # explicitly selected package manager. For Rust, prefer cargo nextest only when it
   # is configured; otherwise use the verified test command. Install cargo-audit via
-  # a prebuilt GitHub Action installer rather than compiling it. Audits belong here,
-  # not in release workflows.
+  # a prebuilt GitHub Action installer rather than compiling it. Run every applicable
+  # verified dependency/security audit for each changed area. Release verification
+  # must repeat the supported audit before publication.
 
   final-required-gate:
     name: [STABLE_BRANCH_PROTECTION_CHECK_NAME]
